@@ -17,8 +17,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // 업로드된 이미지를 보관할 폴더와 데이터베이스 JSON 파일 경로 설정
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
-const DB_FILE = path.join(__dirname, 'postcards_db.json');
-const GALLERY_FILE = path.join(__dirname, 'chatbot_gallery_db.json');
+const DB_FILE = path.join(UPLOADS_DIR, 'postcards_db.json');
+const GALLERY_FILE = path.join(UPLOADS_DIR, 'chatbot_gallery_db.json');
 
 // 폴더 및 DB 파일 자동 생성
 if (!fs.existsSync(UPLOADS_DIR)) {
