@@ -208,8 +208,13 @@ app.post('/api/chatbot', async (req, res) => {
 
         console.log(`[챗봇 임시 보관 접수 완료] ID: ${newGalleryItem.id}, User: ${userId}`);
 
+        // 요청 헤더로부터 동적 프로토콜 및 도메인 호스트 파싱 (터널링 외부 접속 호환성 극대화)
+        const host = req.headers.host || 'localhost:8000';
+        const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+        const baseUrl = `${protocol}://${host}`;
+
         // 카카오톡 SimpleCard 반환
-        const absolutePhotoUrl = photoUrl ? `http://localhost:8000${photoUrl}` : '';
+        const absolutePhotoUrl = photoUrl ? `${baseUrl}${photoUrl}` : '';
         const escapedLetter = letterContent.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '');
 
         const responseJson = {
@@ -227,7 +232,7 @@ app.post('/api/chatbot', async (req, res) => {
                                 {
                                     action: "webLink",
                                     label: "Select & Send Postcard",
-                                    webLinkUrl: `http://localhost:8000/chatbot_select.html?user_id=${userId}`
+                                    webLinkUrl: `${baseUrl}/chatbot_select.html?user_id=${userId}`
                                 }
                             ]
                         }
