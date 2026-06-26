@@ -1,0 +1,100 @@
+﻿[
+    {
+        "id":  "gal-1782434713.53206",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/baby_sample.png",
+        "letter_content":  "Baby photo 1",
+        "created_at":  "2026-06-26T00:45:13+09:00"
+    },
+    {
+        "id":  "gal-1782434729.61375",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/family_sample.png",
+        "letter_content":  "Family photo 2",
+        "created_at":  "2026-06-26T00:45:29+09:00"
+    },
+    {
+        "id":  "gal-1782434744.90554",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/scenery_sample.png",
+        "letter_content":  "Scenery photo 3",
+        "created_at":  "2026-06-26T00:45:44+09:00"
+    },
+    {
+        "id":  "gal-1782434852.81017",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/baby_sample.png",
+        "letter_content":  "Baby photo 1",
+        "created_at":  "2026-06-26T00:47:32+09:00"
+    },
+    {
+        "id":  "gal-1782434868.59168",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/family_sample.png",
+        "letter_content":  "Family photo 2",
+        "created_at":  "2026-06-26T00:47:48+09:00"
+    },
+    {
+        "id":  "gal-1782434882.91443",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/scenery_sample.png",
+        "letter_content":  "Scenery photo 3",
+        "created_at":  "2026-06-26T00:48:02+09:00"
+    },
+    {
+        "id":  "gal-1782435131.16158",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/baby_sample.png",
+        "letter_content":  "Baby photo 1",
+        "created_at":  "2026-06-26T00:52:11+09:00"
+    },
+    {
+        "id":  "gal-1782435143.98625",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/family_sample.png",
+        "letter_content":  "Family photo 2",
+        "created_at":  "2026-06-26T00:52:23+09:00"
+    },
+    {
+        "id":  "gal-1782435159.44376",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/scenery_sample.png",
+        "letter_content":  "Scenery photo 3",
+        "created_at":  "2026-06-26T00:52:39+09:00"
+    },
+    {
+        "id":  "gal-1782435272.66952",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/baby_sample.png",
+        "letter_content":  "",
+        "created_at":  "2026-06-26T00:54:32+09:00"
+    },
+    {
+        "id":  "gal-1782435282.64768",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/family_sample.png",
+        "letter_content":  "",
+        "created_at":  "2026-06-26T00:54:42+09:00"
+    },
+    {
+        "id":  "gal-1782435291.22488",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/scenery_sample.png",
+        "letter_content":  "",
+        "created_at":  "2026-06-26T00:54:51+09:00"
+    },
+    {
+        "id":  "gal-1782435955.56551",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/baby_sample.png",
+        "letter_content":  "",
+        "created_at":  "2026-06-26T01:05:55+09:00"
+    },
+    {
+        "id":  "gal-1782511420.55015",
+        "user_id":  "kakao-test-user-999",
+        "photo_url":  "/uploads/baby_sample.png",
+        "letter_content":  "",
+        "created_at":  "2026-06-26T22:03:40+09:00"
+    }
+]

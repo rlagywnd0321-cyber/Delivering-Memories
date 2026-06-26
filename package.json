@@ -1,0 +1,16 @@
+{
+  "name": "postcard-simulator-backend",
+  "version": "1.0.0",
+  "description": "부모님 우편함 추억 배달 서비스의 프로토타입 백엔드 API 서버",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "author": "Antigravity",
+  "license": "ISC"
+}

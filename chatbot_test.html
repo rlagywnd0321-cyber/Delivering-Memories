@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💬 추억배달 챗봇 시뮬레이터</title>
+    <!-- Google Fonts 연동 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 카카오톡 채팅방 전용 프리미엄 테마 */
+        .chat-body {
+            background-color: #A0B1C4; /* 카카오톡 기본 파스텔 블루 배경 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 420px;
+            height: 85vh;
+            min-height: 580px;
+            background-color: #BACEE0; /* 조금 더 밝은 카카오 배경 */
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #aab7c4;
+        }
+
+        /* 채팅방 헤더 */
+        .chat-header {
+            background-color: #BACEE0;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .chat-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-avatar {
+            width: 38px;
+            height: 38px;
+            background-color: #4A6953;
+            color: #ffffff;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .chat-info h2 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e1e1e;
+            margin: 0;
+        }
+
+        .chat-info p {
+            font-size: 11px;
+            color: #666666;
+            margin: 0;
+        }
+
+        .chat-back-btn {
+            font-size: 13px;
+            color: #4a4a4a;
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .chat-back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* 대화 영역 */
+        .chat-window {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* 말풍선 기본 스타일 */
+        .msg-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            max-width: 85%;
+        }
+
+        .msg-row.mine {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+            max-width: 85%;
+        }
+
+        .msg-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 12px;
+            background-color: #4A6953;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .msg-content-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            max-width: 100%;
+        }
+
+        .msg-sender {
+            font-size: 11px;
+            color: #555555;
+        }
+
+        .msg-bubble {
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            word-break: break-all;
+            white-space: pre-wrap;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        /* 카카오톡 노란색 말풍선 (나) */
+        .msg-row.mine .msg-bubble {
+            background-color: #FEE500; /* 카카오 노랑 */
+            color: #191919;
+            border-top-right-radius: 2px;
+        }
+
+        /* 하얀색 말풍선 (챗봇) */
+        .msg-row.bot .msg-bubble {
+            background-color: #ffffff;
+            color: #191919;
+            border-top-left-radius: 2px;
+        }
+
+        /* 이미지 메시지 */
+        .msg-bubble-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        /* 카카오 SimpleCard 구조 말풍선 */
+        .bot-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            width: 260px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bot-card-thumb {
+            width: 100%;
+            aspect-ratio: 1.6 / 1;
+            background-size: cover;
+            background-position: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .bot-card-body {
+            padding: 14px;
+        }
+
+        .bot-card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #222222;
+            margin-bottom: 6px;
+        }
+
+        .bot-card-desc {
+            font-size: 12px;
+            color: #555555;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .bot-card-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            border-top: 1px solid #f2f2f2;
+            transition: background-color 0.2s;
+        }
+
+        .bot-card-btn:hover {
+            background-color: #fafafa;
+        }
+
+        /* 입력 바 */
+        .chat-input-area {
+            background-color: #ffffff;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            padding: 8px 12px;
+            font-size: 13px;
+            outline: none;
+            background-color: #f7f7f7;
+            border-radius: 18px;
+            transition: background-color 0.2s;
+        }
+
+        .chat-input:focus {
+            background-color: #ededed;
+        }
+
+        .btn-chat-send {
+            background-color: #FEE500;
+            border: none;
+            color: #191919;
+            padding: 8px 16px;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-chat-send:hover {
+            background-color: #e5ce00;
+        }
+
+        /* 사진 선택 시퀀스 스타일 */
+        .chat-photo-select-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .chat-photo-select-row::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .chat-photo-select-row::-webkit-scrollbar-thumb {
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 2px;
+        }
+
+        .chat-file-btn-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .chat-file-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .chat-file-trigger {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            background-color: #ffffff;
+            color: #555555;
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: 14px;
+            white-space: nowrap;
+        }
+
+        .chat-sample-photo-btn {
+            flex-shrink: 0;
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            background-color: #ffffff;
+            color: #555555;
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .chat-sample-photo-btn.active {
+            background-color: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        /* 선택된 이미지 파일 프리뷰 영역 */
+        .selected-image-preview {
+            width: 100%;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .selected-image-preview.active {
+            display: flex;
+        }
+
+        .btn-clear-img {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="chat-body">
+    <div class="chat-container">
+        <!-- 상단 헤더 -->
+        <header class="chat-header">
+            <div class="chat-title-group">
+                <div class="chat-avatar">📮</div>
+                <div class="chat-info">
+                    <h2>추억배달 챗봇 (가상 테스트)</h2>
+                    <p>정기 구독 엽서 접수 봇</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <a href="chatbot_select.html?user_id=kakao-test-user-999" class="chat-back-btn" style="background-color: rgba(255, 107, 107, 0.15); color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.25);">📂 내 보관함</a>
+                <a href="admin.html" class="chat-back-btn">◀ 관리자 센터</a>
+            </div>
+        </header>
+
+        <!-- 대화 창 -->
+        <div class="chat-window" id="chatWindow">
+            <!-- 봇 가입 웰컴 메시지 -->
+            <div class="msg-row bot">
+                <div class="msg-avatar">📮</div>
+                <div class="msg-content-group">
+                    <div class="msg-sender">추억배달 봇</div>
+                    <div class="msg-bubble">반갑습니다! 부모님 우편함에 추억을 배달해주는 챗봇입니다. 😊
+
+가족 단톡방에서 보낸 사진 중 인쇄하고 싶은 것이 있다면 이 채팅방으로 **[사진 전달]**을 한 뒤 편지 내용을 보내 임시 보관함에 보관해 두세요.
+
+월말이 되면 상단의 **[📂 내 보관함]** 버튼을 눌러 보관된 사진 중 부모님께 보낼 사진을 최종 확정(최대 10장)하여 엽서 발송을 확정하실 수 있습니다!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 하단 전송창 -->
+        <div class="chat-input-area">
+            <!-- 가상 사진 선택 영역 -->
+            <div class="chat-photo-select-row">
+                <div class="chat-file-btn-wrapper">
+                    <input type="file" id="chatPhotoInput" accept="image/*" class="chat-file-input">
+                    <div class="chat-file-trigger">🖼️ 내 폰에서 전송</div>
+                </div>
+                <button type="button" class="chat-sample-photo-btn" data-url="http://localhost:8000/uploads/baby_sample.png">👶 샘플: 아기</button>
+                <button type="button" class="chat-sample-photo-btn" data-url="http://localhost:8000/uploads/family_sample.png">👨‍👩‍👧‍👦 샘플: 가족</button>
+                <button type="button" class="chat-sample-photo-btn" data-url="http://localhost:8000/uploads/scenery_sample.png">🌳 샘플: 여행</button>
+            </div>
+
+            <!-- 선택된 이미지 요약 표시 -->
+            <div class="selected-image-preview" id="selectedImgPreview">
+                <span id="selectedImgName">선택된 이미지 없음</span>
+                <button type="button" class="btn-clear-img" id="btnClearImg">제거 X</button>
+            </div>
+
+            <!-- 메시지 타이핑 및 전송 -->
+            <div class="chat-input-row">
+                <input type="text" id="chatMsgInput" class="chat-input" placeholder="편지 내용을 여기에 입력하세요...">
+                <button type="button" id="btnChatSend" class="btn-chat-send">전송</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="chatbot_test.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부모님 우편함 추억 배달 서비스</title>
+    <!-- Google Fonts 연동: 나눔손글씨 펜 및 Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- 카카오 우편번호 서비스 API 로드 -->
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 상단 헤더 -->
+        <header class="app-header">
+            <div class="logo">📮 추억배달</div>
+            <p class="subtitle">이번 달 부모님께 보낼 실물 엽서를 디자인하세요.</p>
+        </header>
+
+        <!-- 메인 콘텐츠 영역 (모바일 뷰어) -->
+        <main class="app-main">
+            <!-- 엽서 프리뷰 컨테이너 (3D Flip 적용) -->
+            <div class="postcard-wrapper">
+                <div class="postcard" id="postcard">
+                    <!-- 엽서 앞면: 사진 영역 -->
+                    <div class="postcard-face postcard-front">
+                        <div class="photo-frame" id="photoFrame">
+                            <div class="placeholder-content">
+                                <span class="placeholder-icon">📸</span>
+                                <p>부모님께 보낼 사진을 등록해 주세요.</p>
+                            </div>
+                        </div>
+                        <div class="card-caption">우리 가족의 행복한 순간</div>
+                    </div>
+
+                    <!-- 엽서 뒷면: 손글씨 편지 영역 (정가운데 단일 정렬) -->
+                    <div class="postcard-face postcard-back">
+                        <div class="back-content-center">
+                            <div class="letter-text-center" id="letterPreview">
+                                사랑하는 엄마 아빠에게,<br><br>
+                                여기에 편지 내용을 입력하시면<br>
+                                정갈한 손글씨체로 실시간 변경되어<br>
+                                엽서 뒷면에 예쁘게 인쇄됩니다.
+                            </div>
+                        </div>
+                        <!-- 주소 프리뷰용 숨김 필드 (JS 에러 방지용) -->
+                        <div style="display: none;">
+                            <div id="namePreview"></div>
+                            <div id="addressPreview"></div>
+                            <div id="postcodePreview">
+                                <span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 컨트롤 인터페이스 (카드 뒷면에 카드 조작용 토글 제공) -->
+            <div class="control-panel">
+                <button type="button" class="btn-flip" id="btnFlip">🔄 엽서 뒤집기</button>
+
+                <!-- 입력 폼 -->
+                <form class="postcard-form" id="postcardForm">
+                    <!-- 사진 등록 -->
+                    <div class="form-group">
+                        <label class="form-label">1. 사진 선택</label>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="photoInput" accept="image/*" class="file-input">
+                            <div class="file-upload-trigger">
+                                🖼️ 폰에서 가족 사진 올리기
+                            </div>
+                        </div>
+                        <div class="sample-photos">
+                            <p class="sample-label">샘플 사진으로 테스트 해보기:</p>
+                            <div class="sample-list">
+                                <button type="button" class="sample-btn" data-img="/uploads/family_sample.png">👨‍👩‍👧‍👦 가족 일상</button>
+                                <button type="button" class="sample-btn" data-img="/uploads/scenery_sample.png">🌳 풍경/여행</button>
+                                <button type="button" class="sample-btn" data-img="/uploads/baby_sample.png">👶 아기 사진</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 편지 작성 -->
+                    <div class="form-group">
+                        <label class="form-label" for="letterInput">2. 부모님께 한 줄 편지</label>
+                        <textarea id="letterInput" rows="4" class="form-textarea" placeholder="여기에 편지 내용을 작성해 보세요. 적으시는 동안 자동으로 엽서가 뒤집혀 확인하실 수 있습니다."></textarea>
+                    </div>
+
+                    <!-- 주소 입력 -->
+                    <div class="form-group">
+                        <label class="form-label">3. 배송 정보 확인</label>
+                        <input type="text" id="recipientName" class="form-input" placeholder="받는 사람 성함 (예: 김철수, 이영희)" value="엄마 아빠">
+                        <div class="address-search-group">
+                            <input type="text" id="postcode" class="form-input" placeholder="우편번호" readonly value="48283">
+                            <button type="button" class="btn-search-address" id="btnSearchAddress">🔍 주소 찾기</button>
+                        </div>
+                        <input type="text" id="recipientAddress" class="form-input" placeholder="기본 주소 (주소 찾기 클릭)" readonly value="부산시 수영구 광안해변로 123">
+                        <input type="text" id="recipientAddressDetail" class="form-input" placeholder="상세 주소 (예: 101동 202호)" value="456호">
+                    </div>
+
+                    <!-- 제출 버튼 -->
+                    <button type="submit" class="btn-submit" id="btnSubmit">📮 우편함으로 배달 신청하기</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- 발송 완료 모달 및 우편함 애니메이션 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="mailbox-animation">
+                <div class="mailbox-container">
+                    <!-- 우편함 구조 -->
+                    <div class="mailbox">
+                        <div class="mailbox-cap"></div>
+                        <div class="mailbox-slot"></div>
+                        <div class="mailbox-flag"></div>
+                    </div>
+                    <!-- 날아가는 편지 봉투 -->
+                    <div class="flying-letter" id="flyingLetter">✉️</div>
+                </div>
+            </div>
+            <div class="success-message">
+                <h2>배송 신청 완료!</h2>
+                <p>소중한 가족의 추억이 엽서로 구워져<br>부모님 댁 우편함으로 곧 배달됩니다.</p>
+                <button type="button" class="btn-close" id="btnClose">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

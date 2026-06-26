@@ -1,0 +1,64 @@
+﻿[
+    {
+        "id":  "ord-1782435352.20454",
+        "photo_url":  "/uploads/baby_sample.png",
+        "photo_urls":  [
+                           "/uploads/baby_sample.png",
+                           "/uploads/family_sample.png"
+                       ],
+        "recipient_name":  "Hong Gil DongMom and Dad",
+        "recipient_postcode":  "1314912345",
+        "recipient_address":  "경기 성남시 중원구 산성대로604번Seoul, Mapo-gu, Yanghwa-ro 123길 12",
+        "recipient_address_detail":  "502Apartment 101-202",
+        "letter_content":  "Hi Mom and Dad! Here are some photos of our recent activities. Hope you like them!",
+        "created_at":  "2026-06-26T00:55:52+09:00",
+        "source":  "KakaoTalk Chatbot (User ID: kakao-test-user-999)"
+    },
+    {
+        "id":  "ord-1782435990.27845",
+        "photo_url":  "/uploads/scenery_sample.png",
+        "photo_urls":  [
+                           "/uploads/scenery_sample.png",
+                           "/uploads/baby_sample.png"
+                       ],
+        "recipient_name":  "엄마 아빠",
+        "recipient_postcode":  "13149",
+        "recipient_address":  "경기 성남시 중원구 산성대로604번길 12",
+        "recipient_address_detail":  "1층11222",
+        "letter_content":  "",
+        "created_at":  "2026-06-26T01:06:30+09:00",
+        "source":  "KakaoTalk Chatbot (User ID: kakao-test-user-999)"
+    },
+    {
+        "id":  "ord-1782436010.33586",
+        "photo_url":  "/uploads/baby_sample.png",
+        "photo_urls":  [
+                           "/uploads/baby_sample.png",
+                           "/uploads/family_sample.png",
+                           "/uploads/scenery_sample.png"
+                       ],
+        "recipient_name":  "엄마 아빠",
+        "recipient_postcode":  "13149",
+        "recipient_address":  "경기 성남시 중원구 산성대로604번길 12",
+        "recipient_address_detail":  "1층11222",
+        "letter_content":  "",
+        "created_at":  "2026-06-26T01:06:50+09:00",
+        "source":  "KakaoTalk Chatbot (User ID: kakao-test-user-999)"
+    },
+    {
+        "id":  "ord-1782511432.84784",
+        "photo_url":  "/uploads/baby_sample.png",
+        "photo_urls":  [
+                           "/uploads/baby_sample.png",
+                           "/uploads/family_sample.png",
+                           "/uploads/scenery_sample.png"
+                       ],
+        "recipient_name":  "엄마 아빠",
+        "recipient_postcode":  "13149",
+        "recipient_address":  "경기 성남시 중원구 산성대로604번길 12",
+        "recipient_address_detail":  "1층11222",
+        "letter_content":  "123123",
+        "created_at":  "2026-06-26T22:03:52+09:00",
+        "source":  "KakaoTalk Chatbot (User ID: kakao-test-user-999)"
+    }
+]
