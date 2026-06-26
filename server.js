@@ -76,7 +76,7 @@ function downloadImage(url, destPath) {
                 resolve();
             });
             fileStream.on('error', (err) => {
-                fs.unlink(destPath, () => {});
+                fs.unlink(destPath, () => { });
                 reject(err);
             });
         }).on('error', (err) => {
@@ -88,9 +88,9 @@ function downloadImage(url, destPath) {
 // 공통 이미지 데이터 처리 헬퍼 (Base64 또는 HTTP 원격 URL)
 async function saveImageInput(photoData, filenamePrefix) {
     if (!photoData) return '';
-    
+
     const filename = `${filenamePrefix}-${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    
+
     if (photoData.startsWith('data:image/')) {
         const matches = photoData.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
         if (matches && matches.length === 3) {
@@ -143,7 +143,7 @@ app.get('/api/postcards', (req, res) => {
 app.post('/api/postcard', async (req, res) => {
     try {
         const { recipient_name, recipient_postcode, recipient_address, recipient_address_detail, letter_content, photo_data } = req.body;
-        
+
         let photoUrl = '';
         if (photo_data) {
             photoUrl = await saveImageInput(photo_data, 'postcard');
@@ -183,7 +183,7 @@ app.post('/api/chatbot', async (req, res) => {
         console.log('[챗봇 요청 수신] Body:', JSON.stringify(req.body, null, 2));
         const userId = req.body.userRequest?.user?.id || 'unknown-user';
         const params = req.body.action?.params || {};
-        
+
         // 일반 파라미터 매핑 외에, 폴백 블록이나 미디어 다이렉트 전송 시의 카카오 API 경로도 상호 폴백 지원
         const photoData = params.photo || req.body.userRequest?.params?.media?.url || '';
         const letterContent = params.letter || req.body.userRequest?.utterance || '';
@@ -211,7 +211,7 @@ app.post('/api/chatbot', async (req, res) => {
         // 카카오톡 SimpleCard 반환
         const absolutePhotoUrl = photoUrl ? `http://localhost:8000${photoUrl}` : '';
         const escapedLetter = letterContent.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '');
-        
+
         const responseJson = {
             version: "2.0",
             template: {
@@ -236,7 +236,7 @@ app.post('/api/chatbot', async (req, res) => {
             }
         };
 
-        return res.status(200).json(responseData);
+        return res.status(200).json(responseJson);
 
     } catch (err) {
         console.error('Chatbot API Error:', err);
