@@ -180,11 +180,13 @@ app.post('/api/postcard', async (req, res) => {
 // 3. 챗봇 사진/메시지 임시 접수 API (POST /api/chatbot)
 app.post('/api/chatbot', async (req, res) => {
     try {
+        console.log('[챗봇 요청 수신] Body:', JSON.stringify(req.body, null, 2));
         const userId = req.body.userRequest?.user?.id || 'unknown-user';
         const params = req.body.action?.params || {};
         
-        const photoData = params.photo;
-        const letterContent = params.letter || '';
+        // 일반 파라미터 매핑 외에, 폴백 블록이나 미디어 다이렉트 전송 시의 카카오 API 경로도 상호 폴백 지원
+        const photoData = params.photo || req.body.userRequest?.params?.media?.url || '';
+        const letterContent = params.letter || req.body.userRequest?.utterance || '';
 
         let photoUrl = '';
         if (photoData) {
